@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<table>
+<table class="table">
 	<thead>
 		<tr>
 			<th>Patient</th>
@@ -18,16 +18,36 @@
 		</tr>
 	</thead>
 	<tbody>
+	{% if sms_list %}
+		{% for drug_receiver in sms_list %}
 		<tr>
-			
+			<td>{{ drug_receiver.patient_first_name }} {{ drug_receiver.patient_last_name }}</td>
+			<td>{{ drug_receiver.date_picked }}</td>
+			<td>{{ drug_receiver.weeks_reminder }}</td>
+			<td>{{ drug_receiver.two_day_reminder }}</td>
+			<td>{{ drug_receiver.one_day_later_reminder}}</td>
 		</tr>
-	</tbody>
+		{% endfor %}
 
+	{% endif %}
+	</tbody>
 </table>
+
+<form action="/send-sms" method="POST">
+	{% csrf_token%}
+	<div class="form-group">
+		<input type="text" value="" name="phone" class="form-control">
+		<button type="submit" class="btn btn-primary">Send SMS</button>
+	</div>
+</form>
 
 <script src="https://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+
+<script>
+	
+</script>
 </body>
 </html>
