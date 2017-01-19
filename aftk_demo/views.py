@@ -2,8 +2,11 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from models import Dispense_Drug_List
 from django.template import loader
-from AfricasTalkingGateway import AfricasTalkingGateway, AfricasTalkingGatewayException
+#from AfricasTalkingGateway import AfricasTalkingGateway, AfricasTalkingGatewayException
 from django.http import JsonResponse
+import urllib, urllib2
+import requests
+
 
 # Create your views here.
 
@@ -20,34 +23,14 @@ def demo_dashboard(request):
 
 def send_sms(request):
 
-	username = "XXXXXXXXXXXXXXXXXX"
-	apikey   = "XXXXXXXXXXXXXXXXXX"
+	headers = {"apikey":"bd32556c91e9968fd079957eaf9aa55f6b4f971fbe0bf0e8571699ea32c8f793"}
 
-	to = "+254XXXXXXXX"
+	values = {"username": "hawi_caesar","to":"+254733806122","message":"This message has come via code"}
 
-	message = "I'm a lumberjack and it's ok, I sleep all night and I work all day"
+	response = requests.post('http://api.sandbox.africastalking.com/version1/messaging', headers=headers, data = values)
 
-	gateway = AfricasTalkingGateway(username, apikey)
+	content = response.content
 
-	try:
-		results = gateway.sendMessage(to2, message)
-
-		for recipient in results:
-
-		 	print 'number=%s;status=%s;messageId=%s;cost=%s' % (recipient['number'],
-	                                                            recipient['status'],
-	                                                            recipient['messageId'],
-	                                                            recipient['cost'])
-
-		response = JsonResponse({'sms_status': 'sms sent to ' + str(to2)})
-
-		return HttpResponse(response, content_type='application/json')
-
-	except AfricasTalkingGatewayException, e:
-
-		error = 'Encountered an error while sending: %s' % str(e)
-
-	 	return HttpResponse(error, content_type='application/json')
-
+	return HttpResponse(content)
 	
 
