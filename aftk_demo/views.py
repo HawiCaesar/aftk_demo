@@ -25,7 +25,9 @@ def send_sms(request):
 
 	headers = {"apikey":"bd32556c91e9968fd079957eaf9aa55f6b4f971fbe0bf0e8571699ea32c8f793"}
 
-	values = {"username": "hawi_caesar","to":"+254733806122","message":"This message has come via code"}
+	values = {"username": "hawi_caesar",
+				"to":"+254733806122",
+				"message":"Another JSON response?"}
 
 	response = requests.post('http://api.sandbox.africastalking.com/version1/messaging', headers=headers, data = values)
 
