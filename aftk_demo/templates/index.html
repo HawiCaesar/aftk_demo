@@ -11,7 +11,8 @@
 	<thead>
 		<tr>
 			<th>Patient</th>
-			<th>Date Picked</th>
+			<th>Last Date Picked</th>
+			<th>Next Pick Date</th>
 			<th>Week's Reminder</th>
 			<th>2 Day Reminder</th>
 			<th>1 Day Late Reminder</th>
@@ -22,7 +23,8 @@
 		{% for drug_receiver in sms_list %}
 		<tr>
 			<td>{{ drug_receiver.patient_first_name }} {{ drug_receiver.patient_last_name }}</td>
-			<td>{{ drug_receiver.date_picked }}</td>
+			<td>{{ drug_receiver.last_date_picked }}</td>
+			<td>{{ drug_receiver.next_pick_date }}</td>
 			<td>{{ drug_receiver.weeks_reminder }}</td>
 			<td>{{ drug_receiver.two_day_reminder }}</td>
 			<td>{{ drug_receiver.one_day_later_reminder}}</td>
@@ -32,6 +34,7 @@
 	{% endif %}
 	</tbody>
 </table>
+{{ one_week_list }}
 
 <form action="/send-sms" method="POST">
 	{% csrf_token%}

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from models import Dispense_Drug_List
 from django.template import loader
+from datetime import date, datetime
 #from AfricasTalkingGateway import AfricasTalkingGateway, AfricasTalkingGatewayException
 from django.http import JsonResponse
 import urllib, urllib2
@@ -14,7 +15,14 @@ def index(request):
 
 	list_of_persons = Dispense_Drug_List.objects.all()
 
-	return render(request, 'index.html', {'sms_list': list_of_persons})
+	for person in list_of_persons:
+
+		total = person.next_pick_date - datetime.date()
+
+		total_days = total.days
+
+
+	return render(request, 'index.html', {'sms_list': list_of_persons,'one_week_list': total_days})
 
 def demo_dashboard(request):
 
