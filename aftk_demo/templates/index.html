@@ -11,6 +11,7 @@
 	<thead>
 		<tr>
 			<th>Patient</th>
+			<!-- <th>Mobile Number</th> -->
 			<th>Last Date Picked</th>
 			<th>Next Pick Date</th>
 			<th>Week's Reminder</th>
@@ -23,26 +24,68 @@
 		{% for drug_receiver in sms_list %}
 		<tr>
 			<td>{{ drug_receiver.patient_first_name }} {{ drug_receiver.patient_last_name }}</td>
+			<!-- <td>{{ drug_receiver.mobile_number.replace(drug_receiver.mobile_number[-1], "254") }}</td> -->
 			<td>{{ drug_receiver.last_date_picked }}</td>
 			<td>{{ drug_receiver.next_pick_date }}</td>
-			<td>{{ drug_receiver.weeks_reminder }}</td>
-			<td>{{ drug_receiver.two_day_reminder }}</td>
-			<td>{{ drug_receiver.one_day_later_reminder}}</td>
+
+			{% if drug_receiver.weeks_reminder == 1 %}
+				<td>Yes</td>
+
+			{% else %}
+				<td>No</td>
+
+			{% endif %}
+
+
+
+			{% if drug_receiver.two_day_reminder == 1 %}
+				<td>Yes</td>
+
+			{% else %}
+				<td>No</td>
+				
+			{% endif %}
+
+
+
+			{% if drug_receiver.one_day_later_reminder == 1 %}
+				<td>Yes</td>
+
+			{% else %}
+				<td>No</td>
+				
+			{% endif %}
 		</tr>
 		{% endfor %}
 
 	{% endif %}
 	</tbody>
 </table>
-{{ one_week_list }}
 
-<form action="/send-sms" method="POST">
+<div class="alert alert-info">
+<!-- 
+	{% if message_count > 1 %}
+
+		{{ message_count }} SMS's have been sent
+
+	{% elif message_count == 1 %}
+
+		{{ message_count }} SMS has been sent
+
+	{% else %}
+
+		No SMS's have been sent
+
+	{% endif %} -->
+</div>
+
+<!-- <form action="/send-sms" method="POST">
 	{% csrf_token%}
 	<div class="form-group">
 		<input type="text" value="" name="phone" class="form-control">
 		<button type="submit" class="btn btn-primary">Send SMS</button>
 	</div>
-</form>
+</form> -->
 
 <script src="https://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
