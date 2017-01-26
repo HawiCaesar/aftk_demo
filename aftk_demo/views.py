@@ -4,7 +4,7 @@ from models import Dispense_Drug_List
 from django.template import loader
 from datetime import date
 import datetime
-#from AfricasTalkingGateway import AfricasTalkingGateway, AfricasTalkingGatewayException
+from AfricasTalkingGateway import AfricasTalkingGateway, AfricasTalkingGatewayException
 from django.http import JsonResponse
 import urllib, urllib2
 import requests
@@ -23,11 +23,15 @@ def index(request):
 
 		total = person.next_pick_date - datetime.date.today()
 
+		striped_number = person.mobile_number[1:]
+
+		final_mobile_number = ''.join(('+254', striped_number))
+
 		print total.days
 
 		if total.days == 7:
 
-			#send_sms_reminder(total.days, person.patient_first_name, person.patient_last_name, person.mobile_number, person.next_pick_date ) # Send One Week Reminder
+			send_sms_reminder(total.days, person.patient_first_name, person.patient_last_name, final_mobile_number, person.next_pick_date.strftime("%A %d, %B %Y") ) # Send One Week Reminder
 
 			person.weeks_reminder = 1
 			person.save()
@@ -35,7 +39,7 @@ def index(request):
 
 		elif total.days == 2:
 
-			#send_sms_reminder(total.days, person.patient_first_name, person.patient_last_name, person.mobile_number, person.next_pick_date ) # Send 2 day Reminder
+			#send_sms_reminder(total.days, person.patient_first_name, person.patient_last_name, final_mobile_number, person.next_pick_date ) # Send 2 day Reminder
 
 			person.two_day_reminder = 1
 			person.save()
@@ -45,45 +49,55 @@ def index(request):
 
 			print "Out of reminder period"
 
-			
 
-	return render(request, 'index.html', {'sms_list': list_of_persons, 'message_count':message_counter})
+	return render(request, 'index.html', {'sms_list': list_of_persons, 'message_count': message_counter})
 
 def demo_dashboard(request):
 
 	return render(request, 'demo_dashboard.html')
 
 
-def send_sms(no_of_days, first_name, last_name, mobile_number, date):
+def send_sms_reminder(no_of_days, first_name, last_name, mobile_number, the_date):
+
+	#content based on the days
 
 	if no_of_days == 7:
 
-		message = "Dear "+first_name+last_name+". Kindly remember to come for a drug refill on "+date+". This is a one week reminder"
+		message = "Dear "+first_name+" "+last_name+". Kindly remember to come for a drug refill on "+the_date+". This is a one week reminder"
 
 	elif no_of_days == 2:
 
-		message = "Dear "+first_name+last_name+". Kindly remember to come for a drug refill on "+date+". This us a two day reminder"
+		message = "Dear "+first_name+" "+last_name+". Kindly remember to come for a drug refill on "+the_date+". This is a two day reminder"
 
 	elif no_of_days == -1:
 
 		message = "Dear "
 
+	#sending the sms	
+
+	username = "hawi_caesar"
+	apiKey   = "bd32556c91e9968fd079957eaf9aa55f6b4f971fbe0bf0e8571699ea32c8f793"
 
 
-	# Dealing with the days
+	to = mobile_number
+
+	gateway = AfricasTalkingGateway(username, apiKey, "sandbox")
 
 
+	try:
+    # Thats it, hit send and we'll take care of the rest.
+    
+	    results = gateway.sendMessage(to, message)
+	    
+	    for recipient in results:
+	        # status is either "Success" or "error message"
+	        print 'number=%s;status=%s;messageId=%s;cost=%s' % (recipient['number'],
+                                                            recipient['status'],
+                                                            recipient['messageId'],
+                                                            recipient['cost'])
 
-	headers = {"apikey":"bd32556c91e9968fd079957eaf9aa55f6b4f971fbe0bf0e8571699ea32c8f793"}
-
-	values = {"username": "hawi_caesar",
-				"to":"+254733806122", # for purposes of demo, this number is used
-				"message":message}
-
-	response = requests.post('http://api.sandbox.africastalking.com/version1/messaging', headers=headers, data = values)
-
-	content = response.content
-
-	return HttpResponse(content)
+	except AfricasTalkingGatewayException, e:
+	    print 'Encountered an error while sending: %s' % str(e)
+	
 	
 
