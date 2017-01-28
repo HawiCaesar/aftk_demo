@@ -39,7 +39,7 @@ def index(request):
 
 		elif total.days == 2:
 
-			#send_sms_reminder(total.days, person.patient_first_name, person.patient_last_name, final_mobile_number, person.next_pick_date ) # Send 2 day Reminder
+			send_sms_reminder(total.days, person.patient_first_name, person.patient_last_name, final_mobile_number, person.next_pick_date.strftime("%A %d, %B %Y") ) # Send 2 day Reminder
 
 			person.two_day_reminder = 1
 			person.save()
@@ -76,7 +76,7 @@ def send_sms_reminder(no_of_days, first_name, last_name, mobile_number, the_date
 	#sending the sms	
 
 	username = "MY SANDBOX USERNAME"
-	apiKey   = "MY API KEY"
+	apiKey   = "MY APIKEY"
 
 
 	to = mobile_number

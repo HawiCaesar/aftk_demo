@@ -7,7 +7,12 @@
 </head>
 <body>
 
-<table class="table">
+<div class="jumbotron">
+	<h1>Simple SMS Dashboard</h1>
+</div>
+<h4 style="padding-bottom:5%">This dashboard shows sms sent to patients who receive drugs regularly from hospitals. It shows sms notification reminders sent to patients</h4>
+
+<table class="table" id="sms_dash">
 	<thead>
 		<tr>
 			<th>Patient</th>
@@ -29,30 +34,30 @@
 			<td>{{ drug_receiver.next_pick_date }}</td>
 
 			{% if drug_receiver.weeks_reminder == 1 %}
-				<td>Yes</td>
+				<td><center>Yes</center></td>
 
 			{% else %}
-				<td>No</td>
+				<td><center>No</center></td>
 
 			{% endif %}
 
 
 
 			{% if drug_receiver.two_day_reminder == 1 %}
-				<td>Yes</td>
+				<td><center>Yes</center></td>
 
 			{% else %}
-				<td>No</td>
+				<td><center>No</center></td>
 				
 			{% endif %}
 
 
 
 			{% if drug_receiver.one_day_later_reminder == 1 %}
-				<td>Yes</td>
+				<td><center>Yes</center></td>
 
 			{% else %}
-				<td>No</td>
+				<td><center>No</center></td>
 				
 			{% endif %}
 		</tr>
@@ -92,6 +97,10 @@
 <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
 
 <script>
+
+$(document).ready(function(){
+    $('#sms_dash').DataTable();
+});
 	
 </script>
 </body>
