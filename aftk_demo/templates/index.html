@@ -67,7 +67,7 @@
 	</tbody>
 </table>
 
-<div class="alert alert-info">
+<div class="alert alert-info"> <!-- Alert Section -->
 {% if message_count > 1 %}
 
 		{{ message_count }} SMS's have been sent
@@ -83,13 +83,6 @@
 	{% endif %}
 </div>
 
-<!-- <form action="/send-sms" method="POST">
-	{% csrf_token%}
-	<div class="form-group">
-		<input type="text" value="" name="phone" class="form-control">
-		<button type="submit" class="btn btn-primary">Send SMS</button>
-	</div>
-</form> -->
 
 <script src="https://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>

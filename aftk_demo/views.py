@@ -6,7 +6,7 @@ from datetime import date
 import datetime
 from AfricasTalkingGateway import AfricasTalkingGateway, AfricasTalkingGatewayException
 from django.http import JsonResponse
-import urllib, urllib2
+#import urllib, urllib2
 import requests
 
 
@@ -31,23 +31,51 @@ def index(request):
 
 		if total.days == 7:
 
-			send_sms_reminder(total.days, person.patient_first_name, person.patient_last_name, final_mobile_number, person.next_pick_date.strftime("%A %d, %B %Y") ) # Send One Week Reminder
+			if person.weeks_reminder == 0:
 
-			person.weeks_reminder = 1
-			person.save()
-			message_counter+=1
+				send_sms_reminder(total.days, person.patient_first_name, person.patient_last_name, final_mobile_number, person.next_pick_date.strftime("%A %d, %B %Y") ) # Send One Week Reminder
+
+				person.weeks_reminder = 1
+				person.save()
+				message_counter+=1
+
+			else:
+
+				print "Already sent 1 week SMS reminder"
 
 		elif total.days == 2:
 
-			send_sms_reminder(total.days, person.patient_first_name, person.patient_last_name, final_mobile_number, person.next_pick_date.strftime("%A %d, %B %Y") ) # Send 2 day Reminder
+			if person.two_day_reminder == 0:
 
-			person.two_day_reminder = 1
-			person.save()
-			message_counter+=1
+				send_sms_reminder(total.days, person.patient_first_name, person.patient_last_name, final_mobile_number, person.next_pick_date.strftime("%A %d, %B %Y") ) # Send 2 day Reminder
+
+				person.two_day_reminder = 1
+				person.save()
+				message_counter+=1
+
+			else:
+
+				print "Already sent 2 day SMS reminder"
+
+		elif total.days <= 0:
+
+			if person.one_day_later_reminder == 0:
+
+				send_sms_reminder(total.days, person.patient_first_name, person.patient_last_name, final_mobile_number, person.next_pick_date.strftime("%A %d, %B %Y") ) # Send 2 day Reminder
+
+				person.one_day_later_reminder = 1
+				person.save()
+				message_counter+=1
+
+			elif person.one_day_later_reminder == 1:
+
+				send_sms_reminder(total.days, person.patient_first_name, person.patient_last_name, final_mobile_number, person.next_pick_date.strftime("%A %d, %B %Y") ) # Send one day later Reminder
+				message_counter+=1
+				#print "Out of reminder period "+str(total.days)
 
 		else:
 
-			print "Out of reminder period"
+				print "Not 7days, 2days or later than drug refill date"
 
 
 	return render(request, 'index.html', {'sms_list': list_of_persons, 'message_count': message_counter})
@@ -59,20 +87,20 @@ def send_sms_reminder(no_of_days, first_name, last_name, mobile_number, the_date
 
 	if no_of_days == 7:
 
-		message = "Dear "+first_name+" "+last_name+". Kindly remember to come for a drug refill on "+the_date+". This is a one week reminder"
+		message = "Dear "+first_name+" "+last_name+", kindly remember to come for a drug refill on "+the_date+". This is a one week reminder"
 
 	elif no_of_days == 2:
 
-		message = "Dear "+first_name+" "+last_name+". Kindly remember to come for a drug refill on "+the_date+". This is a two day reminder"
+		message = "Dear "+first_name+" "+last_name+", kindly remember to come for a drug refill on "+the_date+". This is a two day reminder"
 
-	elif no_of_days == -1:
+	elif no_of_days <= 0:
 
-		message = "Dear "
+		message = "Dear "+first_name+" "+last_name+", You drug refill was yesterday on "+the_date+". Please make a point of visiting the Hospital immediately!"
 
 	#sending the sms	
 
 	username = "MY SANDBOX USERNAME"
-	apiKey   = "MY APIKEY"
+	apiKey   = "MY SANDBOX APIKEY"
 
 
 	to = mobile_number
