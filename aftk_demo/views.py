@@ -52,10 +52,6 @@ def index(request):
 
 	return render(request, 'index.html', {'sms_list': list_of_persons, 'message_count': message_counter})
 
-def demo_dashboard(request):
-
-	return render(request, 'demo_dashboard.html')
-
 
 def send_sms_reminder(no_of_days, first_name, last_name, mobile_number, the_date):
 

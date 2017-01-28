@@ -20,8 +20,8 @@ from aftk_demo import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url(r'^$', views.index, name='index-page'),
-    url(r'^africas_talking', views.demo_dashboard, name='demo_dashboard')
+    url(r'^$', views.index, name='index-page')
+    #url(r'^africas_talking', views.demo_dashboard, name='demo_dashboard')
 
     #url(r'^send-sms', views.send_sms, name='send-sms')
 ]
