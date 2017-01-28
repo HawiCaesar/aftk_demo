@@ -75,8 +75,8 @@ def send_sms_reminder(no_of_days, first_name, last_name, mobile_number, the_date
 
 	#sending the sms	
 
-	username = "hawi_caesar"
-	apiKey   = "bd32556c91e9968fd079957eaf9aa55f6b4f971fbe0bf0e8571699ea32c8f793"
+	username = "MY SANDBOX USERNAME"
+	apiKey   = "MY API KEY"
 
 
 	to = mobile_number
