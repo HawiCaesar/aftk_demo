@@ -10,7 +10,7 @@ Done using python Documentation found here => http://docs.africastalking.com/sms
 
 The screenshot below shows the dashboard when loaded. For the purposes of the demo, only one number is used
 
-![Alt text](./working-example.png?raw=true "SMS Dashboard")
+![Alt text](./working_example.png?raw=true "SMS Dashboard")
 
 The screenshot below shows a one day later reminder sent to two people. The sandbox display simulates how the patient will see the message.
 

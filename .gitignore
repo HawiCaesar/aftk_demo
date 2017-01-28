@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 settings.py
 aftk_demo.sql
+.*~
 
 # C extensions
 *.so
