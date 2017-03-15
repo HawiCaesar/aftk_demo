@@ -99,8 +99,8 @@ def send_sms_reminder(no_of_days, first_name, last_name, mobile_number, the_date
 
 	#sending the sms	
 
-	username = "MY SANDBOX USERNAME"
-	apiKey   = "MY SANDBOX APIKEY"
+	username = ""
+	apiKey   = "bd32556c91e9968fd079957eaf9aa55f6b4f971fbe0bf0e8571699ea32c8f793"
 
 
 	to = mobile_number
