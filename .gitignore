@@ -2,7 +2,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
-settingsw.py
+
+settings.py
 aftk_demo.sql
 .*~
 
