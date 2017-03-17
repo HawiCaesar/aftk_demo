@@ -12,6 +12,9 @@ import requests
 
 # Create your views here.
 
+# This is just a concept app. I have not yet made more functionality
+# Date functionality should be added to avoid sending the sms every time the page is loaded
+
 def index(request):
 
 	list_of_persons = Dispense_Drug_List.objects.all()
@@ -28,6 +31,14 @@ def index(request):
 		final_mobile_number = ''.join(('+254', striped_number))
 
 		print total.days
+
+		"""
+			Date functionality would go well here. Right now every time the page is refreshed, this code runs.
+
+			When a date is overdue, The code will always run and see the patient an sms. 
+			The simple concept was to send an sms every day and not every page refresh.
+			A snippet to check if an sms has been sent today would prevent this.
+		"""
 
 		if total.days == 7:
 
@@ -57,7 +68,8 @@ def index(request):
 
 				print "Already sent 2 day SMS reminder"
 
-		elif total.days <= 0:
+
+		elif total.days <= 0: 
 
 			if person.one_day_later_reminder == 0:
 
@@ -95,11 +107,11 @@ def send_sms_reminder(no_of_days, first_name, last_name, mobile_number, the_date
 
 	elif no_of_days <= 0:
 
-		message = "Dear "+first_name+" "+last_name+", You drug refill was yesterday on "+the_date+". Please make a point of visiting the Hospital immediately!"
+		message = "Dear "+first_name+" "+last_name+", You drug refill was on "+the_date+". Please make a point of visiting the Hospital immediately!"
 
 	#sending the sms	
 
-	username = " "
+	username = "hawi_caesar"
 	apiKey   = "bd32556c91e9968fd079957eaf9aa55f6b4f971fbe0bf0e8571699ea32c8f793"
 
 
